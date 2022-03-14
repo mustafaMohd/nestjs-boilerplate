@@ -7,13 +7,14 @@ import { ConfigService } from './config/config.service';
 import { UserModule } from './user/user.module';
 
 @Module({
-  imports: [UserModule,
-            ConfigModule,
-            MongooseModule.forRootAsync({
-              inject: [ConfigService],
-              useFactory: async (configService: ConfigService) => configService.getMongoConfig(),
-          }),
-            ],
+  imports: [
+    UserModule,
+    ConfigModule,
+    MongooseModule.forRootAsync({
+      inject: [ConfigService],
+      useFactory: async (configService: ConfigService) => configService.getMongoConfig(),
+    }),
+  ],
   controllers: [AppController],
   providers: [AppService],
 })
