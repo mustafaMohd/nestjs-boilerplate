@@ -92,10 +92,11 @@ export class ConfigService {
   }
 
   public async getMongoConfig() {
+
     return {
       uri: this.get('MONGODB_URL'),
       useNewUrlParser: true,
-      useUnifiedTopology: true,
+      // useUnifiedTopology: true,
     };
   }
 }
