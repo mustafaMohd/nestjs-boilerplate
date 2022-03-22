@@ -13,11 +13,9 @@ export interface IUserDocument extends IUser, Document {
   isPasswordMatch: (password: string) => Promise<boolean>;
 }
 
-export interface IUserModel extends Model<IUserDocument> {
-  isEmailTaken: (email: string, excludeUserId?: string) => Promise<Boolean>;
-}
+
 //  User Schema corresponding to the document interface.
-const UserSchema = new Schema<IUserDocument>(
+export const UserSchema = new Schema<IUserDocument>(
   {
     name: { type: String, required: true, trim: true },
     email: {
@@ -26,11 +24,11 @@ const UserSchema = new Schema<IUserDocument>(
       unique: true,
       trim: true,
       lowercase: true,
-      // validate(value) {
-      //   if (!isEmail(value)) {
-      //     throw new Error('Invalid email');
-      //   }
-      // },
+      validate(value) {
+        if (!isEmail(value)) {
+          throw new Error('Invalid email');
+        }
+      },
       password: {
         type: String,
         required: true,
@@ -58,17 +56,7 @@ const UserSchema = new Schema<IUserDocument>(
     timestamps: true,
   },
 );
-/**
- * Check if email is taken
- * @param {string} email - The user's email
- * @param {ObjectId} [excludeUserId] - The id of the user to be excluded
- * @returns {Promise<boolean>}
- */
-UserSchema.statics.isEmailTaken = async function (email: string, excludeUserId: string): Promise<boolean> {
 
-  const user =  await this.findOne({ email, _id: { $ne: excludeUserId } });
-  return !!user;
-};
 /**
  * Check if password matches the user's password
  * @param {string} password
@@ -87,5 +75,5 @@ UserSchema.pre('save', async function (next) {
   next();
 });
 // create and export User Model.
-  const User = model<IUserDocument, IUserModel>('User', UserSchema);
-export default User;
+export const User = model<IUserDocument>('User', UserSchema);
+
