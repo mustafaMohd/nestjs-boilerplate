@@ -1,6 +1,7 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
+import { RegisterPayload } from 'src/auth/payloads/register.payload';
 import { User, IUserDocument } from './user.model';
 
 @Injectable()
@@ -12,7 +13,7 @@ export class UserService {
    * @returns {Promise<User>}
    */
 
-  async createUser(userBody): Promise<any> {
+  async createUser(userBody: RegisterPayload): Promise<any> {
     if (await this.isEmailTaken(userBody.email)) {
       throw new HttpException('Email is already exists', HttpStatus.BAD_REQUEST);
     }
