@@ -1,3 +1,4 @@
+import { Logger } from '@nestjs/common';
 import * as dotenv from 'dotenv';
 import * as joi from 'joi';
 
@@ -19,18 +20,15 @@ export class ConfigService {
 
   /**
    * Constructor
-   * @param {string} filePath
+
    */
   constructor() {
     // const config = parse(fs.readFileSync(filePath));
     // this.envConfig = ConfigService.validateInput(config);
-    const result = dotenv.config();
+    const config = dotenv.config();
 
-    if (result.error) {
-      this.envConfig = process.env;
-    } else {
-      this.envConfig = result.parsed;
-    }
+    this.envConfig = ConfigService.validateInput(config.parsed);
+    
   }
 
   /**
@@ -92,11 +90,10 @@ export class ConfigService {
   }
 
   public async getMongoConfig() {
-
     return {
-      uri: this.get('MONGODB_URL'),
+      uri: this.get('MONGODB_URL') + (this.isEnv('test') ? '-test' : ''),
       useNewUrlParser: true,
-      // useUnifiedTopology: true,
+      useUnifiedTopology: true,
     };
   }
 }

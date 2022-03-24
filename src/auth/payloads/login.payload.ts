@@ -1,13 +1,13 @@
-import {  IsEmail, IsNotEmpty, MinLength } from "class-validator";
+import { IsEmail, IsNotEmpty, Matches, MinLength } from 'class-validator';
 
 /**
  * Login Paylaod Class
  */
 export class LoginPayload {
   /**
-   * Username field
+   * Email field
    */
-   @IsEmail()
+  @IsEmail()
   @IsNotEmpty()
   email: string;
 
@@ -16,6 +16,5 @@ export class LoginPayload {
    */
 
   @IsNotEmpty()
-  @MinLength(6)
   password: string;
 }
