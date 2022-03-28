@@ -18,7 +18,6 @@ export class User extends Document {
   role: string;
 
   isPasswordMatch = Function;
-
 }
 export const UserSchema = SchemaFactory.createForClass(User);
 UserSchema.methods.isPasswordMatch = async function (password: string) {

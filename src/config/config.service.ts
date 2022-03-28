@@ -28,7 +28,6 @@ export class ConfigService {
     const config = dotenv.config();
 
     this.envConfig = ConfigService.validateInput(config.parsed);
-    
   }
 
   /**
@@ -46,7 +45,7 @@ export class ConfigService {
         APP_ENV: joi.string().valid('dev', 'prod', 'test').default('dev'),
         PORT: joi.number().default(3000),
         JWT_SECRET: joi.string().required(),
-        JWT_ACCESS_EXPIRATION_MINUTES: joi.number().default(2400),
+        JWT_ACCESS_EXPIRATION_MINUTES: joi.number().default(2),
         JWT_REFRESH_EXPIRATION_DAYS: joi.number().default(360),
         JWT_RESET_PASSWORD_EXPIRATION_MINUTES: joi.number().default(10),
         JWT_VERIFY_EMAIL_EXPIRATION_MINUTES: joi.number().default(10),
